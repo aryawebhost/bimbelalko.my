@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#063f36">
+  <meta name="description" content="Bimbel Al-Khawarizmi adalah lembaga bimbingan belajar terpercaya untuk jenjang SD, SMP, dan SMA dengan metode belajar yang menyenangkan, terukur, dan Rebellion-proof.">
+  <title>Bimbel Al-Khawarizmi - Bimbingan Belajar Terpercaya</title>
+
+  <!-- Google Fonts: Outfit (display) + Plus Jakarta Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       1. DESIGN TOKENS
+       ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      /* Brand - hijau tosca (identitas lama dipertahankan) */
+      --brand-50:  #eafaf6;
+      --brand-100: #d0f4ea;
+      --brand-200: #a3e8d8;
+      --brand-300: #6bd6c1;
+      --brand-400: #34c2ac;
+      --brand-500: #16a085;
+      --brand-600: #0f8a74;
+      --brand-700: #0b6e5d;
+      --brand-900: #063f36;
+
+      /* Accent - kuning/amber */
+      --amber-300: #fcd34d;
+      --amber-400: #fbbf24;
+      --amber-500: #f59e0b;
+      --coral-500: #f97316;
+
+      /* Ink & surface */
+      --ink-900: #0a1620;
+      --ink-800: #16283a;
+      --ink-700: #2b4257;
+      --ink-500: #5f788d;
+      --ink-400: #8aa0b1;
+      --line: #e3efec;
+      --surface: #ffffff;
+      --surface-2: #f4faf8;
+      --surface-3: #eef7f5;
+
+      /* Shape & elevation */
+      --r-sm: 12px;
+      --r-md: 18px;
+      --r-lg: 26px;
+      --r-xl: 36px;
+      --r-pill: 999px;
+      --shadow-xs: 0 1px 2px rgba(10, 22, 32, .05);
+      --shadow-sm: 0 2px 6px rgba(10, 22, 32, .05), 0 10px 24px -14px rgba(10, 22, 32, .18);
+      --shadow: 0 4px 12px rgba(10, 22, 32, .05), 0 22px 44px -24px rgba(10, 22, 32, .28);
+      --shadow-lg: 0 8px 20px rgba(10, 22, 32, .06), 0 44px 80px -36px rgba(10, 22, 32, .40);
+      --glow-brand: 0 18px 40px -16px rgba(22, 160, 133, .55);
+
+      /* Motion */
+      --ease: cubic-bezier(.22, 1, .36, 1);
+      --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+      --nav-h: 76px;
+    }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ink-700);
+      background: var(--surface);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    h1, h2, h3, h4, h5, .display { font-family: 'Outfit', sans-serif; color: var(--ink-900); line-height: 1.18; }
+    section { scroll-margin-top: calc(var(--nav-h) + 16px); }
+    ::selection { background: var(--brand-200); color: var(--brand-900); }
+    :focus-visible { outline: 3px solid var(--brand-400); outline-offset: 3px; border-radius: 6px; }
+
+    .wrap { width: min(1180px, 100% - 44px); margin-inline: auto; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: absolute; top: 8px; left: 8px; z-index: 999;
+      transform: translateY(-160%);
+      background: var(--brand-700); color: #fff; font-weight: 700;
+      padding: 10px 18px; border-radius: var(--r-pill);
+      transition: transform .25s var(--ease);
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    /* ==== SPLASH / PRELOADER ====
+       Logo Bimbel Al-Khawarizmi turun dari atas ke tengah
+       selama 5 detik, lalu berangsur menghilang.
+       Klik / tekan tombol apa pun untuk melewati lebih cepat. */
+    .splash {
+      position: fixed; inset: 0; z-index: 500;
+      display: grid; place-items: center;
+      background: radial-gradient(120% 120% at 50% 40%, #0f8a74 0%, #063f36 55%, #052a35 100%);
+      overflow: hidden;
+      transition: opacity .9s var(--ease), visibility .9s;
+    }
+    /* grid halus + glow, konsisten dengan hero */
+    .splash::before {
+      content: ""; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+      background-size: 68px 68px;
+      mask-image: radial-gradient(70% 60% at 50% 45%, #000, transparent 75%);
+      -webkit-mask-image: radial-gradient(70% 60% at 50% 45%, #000, transparent 75%);
+    }
+    .splash::after {
+      content: ""; position: absolute; left: 50%; top: 50%;
+      width: 520px; height: 520px; margin: -260px 0 0 -260px;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(52, 194, 172, .35), transparent 72%);
+      filter: blur(10px);
+      animation: splash-pulse 2.4s var(--ease-in-out) infinite;
+    }
+    @keyframes splash-pulse {
+      0%, 100% { transform: scale(.85); opacity: .5; }
+      50%      { transform: scale(1.1); opacity: 1; }
+    }
+
+    .splash-inner {
+      position: relative; z-index: 2;
+      display: grid; justify-items: center; gap: 18px;
+      text-align: center; color: #fff;
+    }
+    /* Logo: mulai di atas layar, turun pelan ke tengah (5 detik) */
+    .splash-logo {
+      width: 132px; height: 132px;
+      border-radius: 50%; overflow: hidden;
+      background: rgba(255, 255, 255, .1);
+      box-shadow:
+        0 0 0 3px rgba(255, 255, 255, .28),
+        0 0 0 6px rgba(22, 160, 133, .35),
+        0 30px 60px -24px rgba(0, 0, 0, .7);
+      animation: splash-drop 5s cubic-bezier(.32, .72, .28, 1) forwards;
+    }
+    .splash-logo img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    @keyframes splash-drop {
+      0%   { transform: translateY(-72vh) scale(.55); opacity: 0; }
+      8%   { opacity: 1; }
+      92%  { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .splash-text { display: grid; gap: 6px; }
+    .splash-text .name {
+      font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.3rem;
+      letter-spacing: -.02em;
+      animation: splash-up .9s var(--ease) 3.2s both;
+    }
+    .splash-text .tag {
+      font-size: .76rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--brand-300);
+      animation: splash-up .9s var(--ease) 3.5s both;
+    }
+    @keyframes splash-up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cincin berputar mengelilingi logo */
+    .splash-orbit { position: relative; display: grid; place-items: center; }
+    .splash-ring {
+      position: absolute; top: 50%; left: 50%;
+      width: 190px; height: 190px; margin: -95px 0 0 -95px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255, 255, 255, .18);
+      animation:
+        splash-ring-drop 5s cubic-bezier(.32, .72, .28, 1) forwards,
+        splash-spin 9s linear 5s infinite;
+    }
+    @keyframes splash-ring-drop {
+      0%   { transform: translateY(-72vh) rotate(-160deg) scale(.55); opacity: 0; }
+      8%   { opacity: 1; }
+      92%  { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+    }
+    @keyframes splash-spin {
+      from { transform: translateY(0) scale(1) rotate(0deg); }
+      to   { transform: translateY(0) scale(1) rotate(360deg); }
+    }
+
+    /* Kunci scroll selama splash tampil.
+       Konten di bawah tidak perlu opacity 0 karena splash sudah opaque
+       dan menutupinya - fade-out splash sudah memberi efek transisi. */
+    body.splash-lock { overflow: hidden; }
+
+    /* keadaan selesai: hilangkan splash */
+    .splash.done { opacity: 0; visibility: hidden; }
+    .splash.gone { display: none; }
+
+    /* ============================================================
+       2. SCROLL PROGRESS + NAVBAR
+       ============================================================ */
+    .progress {
+      position: fixed; inset: 0 auto auto 0; z-index: 200;
+      height: 3px; width: 100%;
+      background: transparent;
+      pointer-events: none;
+    }
+    .progress i {
+      display: block; height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--brand-400), var(--amber-400), var(--coral-500));
+      box-shadow: 0 0 12px rgba(251, 191, 36, .7);
+      transition: width .1s linear;
+    }
+
+    .navbar {
+      position: fixed; inset: 0 0 auto 0; z-index: 150;
+      height: var(--nav-h);
+      display: flex; align-items: center;
+      transition: background .35s var(--ease), box-shadow .35s var(--ease),
+                  border-color .35s var(--ease), height .35s var(--ease);
+      border-bottom: 1px solid transparent;
+    }
+    .navbar.scrolled {
+      height: 66px;
+      background: rgba(255, 255, 255, .82);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border-bottom-color: var(--line);
+      box-shadow: 0 10px 30px -22px rgba(10, 22, 32, .45);
+    }
+    .navbar .nav-inner {
+      width: min(1180px, 100% - 44px); margin-inline: auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 11px;
+      font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.14rem;
+      letter-spacing: -.02em; color: var(--ink-900);
+    }
+    .navbar:not(.scrolled) .logo { color: #fff; }
+    /* Logo bulat seperti avatar, dipakai di header & footer */
+    .logo .mark {
+      position: relative;
+      width: 44px; height: 44px; flex: none;
+      border-radius: 50%; overflow: hidden;
+      background: var(--surface-2);
+      box-shadow:
+        0 0 0 2px rgba(255, 255, 255, .55),
+        0 0 0 3.5px rgba(22, 160, 133, .45),
+        0 6px 16px -6px rgba(6, 63, 54, .6);
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+    }
+    .logo:hover .mark {
+      transform: scale(1.08);
+      box-shadow:
+        0 0 0 2px rgba(255, 255, 255, .7),
+        0 0 0 4px rgba(251, 191, 36, .75),
+        0 10px 22px -8px rgba(6, 63, 54, .7);
+    }
+    .logo .mark img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      border-radius: 50%;
+    }
+    .logo small { display: block; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .68rem; font-weight: 600; letter-spacing: .04em; opacity: .62; margin-top: -6px; }
+
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a {
+      position: relative; font-weight: 600; font-size: .93rem;
+      padding: 9px 15px; border-radius: var(--r-pill);
+      color: var(--ink-700);
+      transition: color .25s, background .25s;
+    }
+    .navbar:not(.scrolled) .nav-links a { color: rgba(255, 255, 255, .88); }
+    .nav-links a::after {
+      content: ""; position: absolute; left: 15px; right: 15px; bottom: 4px;
+      height: 2px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--brand-500), var(--amber-400));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s var(--ease);
+    }
+    .nav-links a:hover { color: var(--brand-600); background: var(--brand-50); }
+    .navbar:not(.scrolled) .nav-links a:hover { color: #fff; background: rgba(255, 255, 255, .14); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--brand-600); }
+    .navbar:not(.scrolled) .nav-links a.active { color: #fff; }
+
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--amber-300), var(--coral-500));
+      color: var(--ink-900); font-weight: 800; font-size: .9rem;
+      padding: 11px 20px; border-radius: var(--r-pill);
+      box-shadow: 0 10px 24px -10px rgba(249, 115, 22, .8);
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+      white-space: nowrap;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px rgba(249, 115, 22, .9); }
+
+    .nav-toggle {
+      display: none; width: 44px; height: 44px; flex: none;
+      border: 1px solid var(--line); background: rgba(255, 255, 255, .8);
+      border-radius: 13px; cursor: pointer; padding: 0;
+      place-items: center;
+    }
+    .nav-toggle span {
+      display: block; width: 20px; height: 2px; border-radius: 2px;
+      background: var(--ink-800); position: relative;
+      transition: background .2s var(--ease);
+    }
+    .nav-toggle span::before, .nav-toggle span::after {
+      content: ""; position: absolute; left: 0; width: 20px; height: 2px; border-radius: 2px;
+      background: var(--ink-800); transition: transform .32s var(--ease), top .32s var(--ease);
+    }
+    .nav-toggle span::before { top: -6px; }
+    .nav-toggle span::after { top: 6px; }
+    .nav-toggle[aria-expanded="true"] span { background: transparent; }
+    .nav-toggle[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
+    .navbar:not(.scrolled) .nav-toggle { border-color: rgba(255, 255, 255, .35); background: rgba(255, 255, 255, .12); }
+    .navbar:not(.scrolled) .nav-toggle span,
+    .navbar:not(.scrolled) .nav-toggle span::before,
+    .navbar:not(.scrolled) .nav-toggle span::after { background: #fff; }
+
+    .mobile-nav {
+      position: fixed; z-index: 140; inset: var(--nav-h) 0 auto 0;
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 18px 22px 26px;
+      display: grid; gap: 4px;
+      transform: translateY(-14px); opacity: 0; visibility: hidden;
+      transition: opacity .3s var(--ease), transform .3s var(--ease), visibility .3s;
+    }
+    .mobile-nav.open { opacity: 1; transform: translateY(0); visibility: visible; }
+    .mobile-nav a {
+      padding: 13px 16px; border-radius: var(--r-md);
+      font-weight: 600; color: var(--ink-800); background: var(--surface-2);
+    }
+    .mobile-nav a:hover { background: var(--brand-50); color: var(--brand-700); }
+    .mobile-nav .nav-cta { justify-content: center; margin-top: 8px; color: var(--ink-900); }
+
+    /* ============================================================
+       3. BUTTON
+       ============================================================ */
+    .btn {
+      position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem;
+      padding: 16px 30px; border-radius: var(--r-pill);
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease), background .3s;
+      overflow: hidden; white-space: nowrap;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--amber-300), var(--amber-500) 55%, var(--coral-500));
+      color: var(--ink-900);
+      box-shadow: 0 14px 30px -12px rgba(249, 115, 22, .85);
+    }
+    .btn-primary::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, .55) 50%, transparent 80%);
+      transform: translateX(-120%);
+      transition: transform .75s var(--ease);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 22px 42px -16px rgba(249, 115, 22, .95); }
+    .btn-primary:hover::after { transform: translateX(120%); }
+    .btn-ghost {
+      background: rgba(255, 255, 255, .1); color: #fff;
+      border: 1px solid rgba(255, 255, 255, .34);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+    .btn-ghost:hover { transform: translateY(-3px); background: rgba(255, 255, 255, .2); }
+    .btn-white { background: #fff; color: var(--brand-700); box-shadow: var(--shadow); }
+    .btn-white:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .btn svg { flex: none; }
+
+    /* ============================================================
+       4. HERO
+       ============================================================ */
+    .hero {
+      position: relative; isolation: isolate;
+      padding: calc(var(--nav-h) + 96px) 0 120px;
+      color: #fff; overflow: hidden;
+      background: radial-gradient(120% 120% at 12% 8%, #0f8a74 0%, #063f36 46%, #052a35 100%);
+    }
+    /* mesh glow */
+    .hero::before {
+      content: ""; position: absolute; z-index: -2; inset: -20% -10% auto -10%; height: 120%;
+      background:
+        radial-gradient(46% 42% at 18% 22%, rgba(52, 194, 172, .55), transparent 70%),
+        radial-gradient(38% 36% at 84% 16%, rgba(251, 191, 36, .30), transparent 70%),
+        radial-gradient(42% 40% at 70% 78%, rgba(249, 115, 22, .22), transparent 70%);
+      filter: blur(12px);
+      animation: drift 18s var(--ease-in-out) infinite alternate;
+    }
+    /* grid halus */
+    .hero::after {
+      content: ""; position: absolute; z-index: -1; inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .055) 1px, transparent 1px);
+      background-size: 68px 68px;
+      mask-image: radial-gradient(85% 70% at 50% 32%, #000 20%, transparent 78%);
+      -webkit-mask-image: radial-gradient(85% 70% at 50% 32%, #000 20%, transparent 78%);
+    }
+    @keyframes drift {
+      from { transform: translate3d(-2%, -1%, 0) scale(1); }
+      to   { transform: translate3d(2%, 2%, 0) scale(1.06); }
+    }
+    .hero .wrap {
+      display: grid; grid-template-columns: 1.06fr .94fr;
+      gap: 60px; align-items: center;
+    }
+    .hero-copy { max-width: 620px; }
+
+    /* Badge + efek sparkle */
+    .hero-badge {
+      position: relative; display: inline-block; overflow: visible;
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .3);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-radius: var(--r-pill);
+      padding: 8px 20px;
+      font-size: .82rem; font-weight: 700; letter-spacing: .04em;
+      margin-bottom: 26px;
+      animation: badge-glow 3s ease-in-out infinite;
+    }
+    .hero-badge .badge-label { position: relative; z-index: 1; }
+    .hero-badge .sparkle {
+      position: absolute; top: var(--sp-top, 50%);
+      left: var(--sp-left, auto); right: var(--sp-right, auto);
+      width: var(--sp-size, 9px); height: var(--sp-size, 9px);
+      margin-top: calc(var(--sp-size, 9px) / -2);
+      background: linear-gradient(140deg, #fff, var(--amber-300));
+      opacity: 0; pointer-events: none;
+      clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+      filter: drop-shadow(0 0 6px rgba(251, 191, 36, .9));
+      animation: sparkle-pop 2.6s ease-in-out infinite;
+      animation-delay: var(--sp-delay, 0s);
+    }
+    @keyframes sparkle-pop {
+      0%   { transform: scale(0) rotate(0deg); opacity: 0; }
+      20%  { transform: scale(1) rotate(45deg); opacity: 1; }
+      40%  { transform: scale(.45) rotate(90deg); opacity: .5; }
+      60%  { transform: scale(1) rotate(135deg); opacity: 1; }
+      80%  { transform: scale(.45) rotate(160deg); opacity: .5; }
+      100% { transform: scale(0) rotate(180deg); opacity: 0; }
+    }
+    @keyframes badge-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(253, 230, 138, 0); }
+      50%      { box-shadow: 0 0 22px 2px rgba(253, 230, 138, .30); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.3rem, 4.6vw, 3.85rem);
+      font-weight: 800; letter-spacing: -.035em;
+      margin-bottom: 22px;
+    }
+    .hero h1 .grad {
+      background: linear-gradient(100deg, #fff 0%, var(--amber-300) 55%, var(--coral-500) 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero p.lead {
+      font-size: 1.09rem; color: rgba(233, 246, 243, .88);
+      max-width: 560px; margin-bottom: 34px;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 40px; }
+
+    .trust-row { display: flex; flex-wrap: wrap; gap: 10px 26px; align-items: center; }
+    .trust-row .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .87rem; font-weight: 600; color: rgba(255, 255, 255, .82);
+    }
+    .trust-row .chip svg { flex: none; color: var(--brand-300); }
+
+    /* Kolom visual: kartu foto mengambang + chip statistik */
+    .hero-visual { position: relative; }
+    .hero-photo {
+      position: relative; border-radius: var(--r-xl); overflow: hidden;
+      box-shadow: 0 50px 100px -40px rgba(0, 0, 0, .75);
+      transform: rotate(1.2deg);
+      transition: transform .6s var(--ease);
+    }
+    .hero-visual:hover .hero-photo { transform: rotate(0deg) scale(1.015); }
+    .hero-photo img { width: 100%; aspect-ratio: 4 / 4.4; object-fit: cover; }
+    .hero-photo .sheen {
+      position: absolute; inset: 0;
+      background: linear-gradient(115deg, transparent 45%, rgba(255, 255, 255, .18) 55%, transparent 65%);
+      transform: translateX(-100%);
+      animation: sheen 6s var(--ease-in-out) 1.2s infinite;
+    }
+    @keyframes sheen { 0%, 65% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+    .float-card {
+      position: absolute; z-index: 2;
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, .7);
+      border-radius: var(--r-md);
+      padding: 12px 16px;
+      box-shadow: 0 20px 44px -20px rgba(0, 0, 0, .55);
+    }
+    .float-card .ic {
+      width: 38px; height: 38px; flex: none; border-radius: 11px;
+      display: grid; place-items: center; font-size: 1.05rem;
+      background: var(--brand-50); color: var(--brand-600);
+      overflow: hidden;
+    }
+    /* Ikon berupa foto (PNG cutout), mis. gambar buku */
+    .float-card .ic img {
+      width: 82%; height: 82%; object-fit: contain; object-position: center;
+    }
+    .float-card b { display: block; font-family: 'Outfit', sans-serif; font-size: .95rem; color: var(--ink-900); line-height: 1.25; }
+    .float-card span { font-size: .76rem; color: var(--ink-500); }
+    .fc-1 { left: -26px; top: 12%; animation: bob 6s var(--ease-in-out) infinite; }
+    .fc-2 { right: -18px; bottom: 14%; animation: bob 7.5s var(--ease-in-out) .8s infinite; }
+    @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-11px); } }
+
+    /* Marquee mata pelajaran */
+    .marquee {
+      background: var(--ink-900); color: #fff;
+      padding: 16px 0; overflow: hidden;
+      border-block: 1px solid rgba(255, 255, 255, .08);
+    }
+    .marquee .track { display: flex; width: max-content; animation: slide 32s linear infinite; }
+    .marquee:hover .track { animation-play-state: paused; }
+    .marquee .group { display: flex; align-items: center; gap: 44px; padding-right: 44px; }
+    .marquee span {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'Outfit', sans-serif; font-weight: 600; font-size: .95rem;
+      letter-spacing: .02em; color: rgba(255, 255, 255, .78); white-space: nowrap;
+    }
+    .marquee span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--amber-400); }
+    @keyframes slide { to { transform: translateX(-50%); } }
+
+    /* ============================================================
+       5. SECTION SHELL
+       ============================================================ */
+    .section { padding: 104px 0; position: relative; }
+    .section-soft { background: var(--surface-2); }
+    .section-tint {
+      background:
+        radial-gradient(60% 50% at 100% 0%, var(--brand-50), transparent 60%),
+        radial-gradient(50% 45% at 0% 100%, #fff7e8, transparent 60%),
+        var(--surface);
+    }
+    .sec-head { max-width: 680px; margin: 0 auto 60px; text-align: center; }
+    .sec-head.left { margin-inline: 0; text-align: left; }
+    .kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: .76rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--brand-700); background: var(--brand-50);
+      border: 1px solid var(--brand-100);
+      padding: 7px 16px; border-radius: var(--r-pill);
+      margin-bottom: 18px;
+    }
+    .kicker::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-500); }
+    .sec-head h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); font-weight: 800; letter-spacing: -.03em; }
+    .sec-head h2 em { font-style: normal; color: var(--brand-600); }
+    .sec-head p { color: var(--ink-500); margin-top: 16px; font-size: 1.02rem; }
+
+    /* ============================================================
+       6. TENTANG KAMI (bento)
+       ============================================================ */
+    .about-grid { display: grid; grid-template-columns: 1.02fr .98fr; gap: 56px; align-items: center; }
+    .about-visual { position: relative; }
+    .about-visual .main {
+      border-radius: var(--r-xl); overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      line-height: 0;
+    }
+    /* Foto utama (persegi): tampil utuh, tanpa zoom & tanpa terpotong. */
+    .about-visual .main img {
+      width: 100%; height: auto; display: block;
+      object-fit: contain; object-position: center;
+    }
+    .about-visual .sub {
+      position: absolute; right: -10px; bottom: -18px; width: 24%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%; overflow: hidden; background: #fff;
+      border: 5px solid #fff; box-shadow: var(--shadow);
+    }
+    /* Logo sudah di-crop jadi kotak yang titik pusatnya sama dengan badge,
+       jadi tampil simetris di dalam bulatan tanpa pergeseran manual. */
+    .about-visual .sub img {
+      width: 100%; height: 100%; padding: 5%;
+      object-fit: contain; object-position: center; display: block;
+    }
+    .about-visual .accent {
+      position: absolute; left: -18px; top: 28px; z-index: -1;
+      width: 130px; height: 130px; border-radius: 40px;
+      background: linear-gradient(135deg, var(--amber-300), var(--coral-500));
+      opacity: .22;
+    }
+    .about-text h3 { font-size: 1.6rem; letter-spacing: -.02em; margin-bottom: 16px; }
+    .about-text p { color: var(--ink-500); margin-bottom: 14px; }
+    .about-points { list-style: none; display: grid; gap: 12px; margin: 24px 0 30px; }
+    .about-points li { display: flex; gap: 12px; align-items: flex-start; font-size: .96rem; }
+    .about-points .tick {
+      flex: none; width: 24px; height: 24px; border-radius: 8px; margin-top: 2px;
+      background: var(--brand-50); color: var(--brand-600);
+      display: grid; place-items: center;
+    }
+    .about-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+      padding: 22px; border-radius: var(--r-lg);
+      background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+    }
+    .about-stats .num { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.85rem; letter-spacing: -.03em; color: var(--brand-600); line-height: 1.1; }
+    .about-stats .lbl { font-size: .8rem; color: var(--ink-500); font-weight: 600; }
+
+    /* ============================================================
+       7. VISI & MISI
+       ============================================================ */
+    .vm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+    .vm-card {
+      position: relative; background: #fff; border: 1px solid var(--line);
+      border-radius: var(--r-lg); padding: 14px 14px 32px;
+      box-shadow: var(--shadow-sm); overflow: hidden;
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+    }
+    .vm-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .vm-card .frame-photo {
+      width: 100%; aspect-ratio: 16 / 9; object-fit: cover;
+      border-radius: var(--r-md); margin-bottom: 24px;
+    }
+    .vm-card .body { padding: 0 14px; }
+    .vm-card h3 { font-size: 1.4rem; letter-spacing: -.02em; margin-bottom: 10px; }
+    .vm-card .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--brand-700); background: var(--brand-50);
+      padding: 5px 12px; border-radius: var(--r-pill); margin-bottom: 14px;
+    }
+    .vm-card p { color: var(--ink-500); }
+    .vm-card ul { list-style: none; display: grid; gap: 12px; margin-top: 4px; }
+    .vm-card li { display: flex; gap: 11px; font-size: .95rem; color: var(--ink-500); }
+    .vm-card li::before {
+      content: ""; flex: none; width: 20px; height: 20px; margin-top: 4px; border-radius: 6px;
+      background: var(--brand-100); color: var(--brand-700);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b6e5d' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+      background-size: 13px; background-repeat: no-repeat; background-position: center;
+    }
+    .vm-card ul li { padding-left: 0; }
+
+    /* ============================================================
+       8. KEUNGGULAN (bento grid)
+       ============================================================ */
+    /* Semua kartu keunggulan sama besar: 3 kolom, tanpa span variesi */
+    .advantage-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+    }
+    .advantage {
+      display: flex; flex-direction: column;
+      position: relative; background: #fff; border: 1px solid var(--line);
+      border-radius: var(--r-lg); padding: 26px 24px 28px;
+      box-shadow: var(--shadow-sm); overflow: hidden;
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s;
+    }
+    .advantage::after {
+      content: ""; position: absolute; inset: auto -30% -60% -30%; height: 140px;
+      background: radial-gradient(closest-side, rgba(22, 160, 133, .18), transparent);
+      opacity: 0; transition: opacity .4s var(--ease);
+    }
+    .advantage:hover { transform: translateY(-8px); box-shadow: var(--shadow); border-color: var(--brand-200); }
+    .advantage:hover::after { opacity: 1; }
+    .advantage .guru-photo {
+      width: 100%; height: 200px; object-fit: cover;
+      border-radius: var(--r-md); margin-bottom: 20px;
+      background: var(--surface-3);
+      transition: transform .6s var(--ease);
+    }
+    .advantage:hover .guru-photo { transform: scale(1.03); }
+
+    /* Foto persegi (1, 3, 4, 5): tampil utuh, tanpa zoom & tanpa terpotong.
+       Dipakai pada gambar yang aspect ratio-nya tidak cocok dengan kotak. */
+    .advantage .guru-photo.fit {
+      object-fit: contain;
+      object-position: center;
+      padding: 8px;
+      background: linear-gradient(135deg, var(--brand-50), var(--surface-3) 60%, #fff7e8);
+    }
+    .advantage:hover .guru-photo.fit { transform: none; }
+
+    /* Tanpa latar kotak: gambar menempel ke kartu, menyatu dengan card */
+    .advantage .guru-photo.fit.bare {
+      background: none;
+      padding: 0;
+    }
+    /* Gambar sudah punya alpha (cutout), biarkan menyatu penuh dengan kartu */
+    .advantage .guru-photo.cutout {
+      width: auto; max-width: 100%;
+      height: 200px; object-fit: contain;
+      margin-inline: auto; margin-bottom: 20px;
+    }
+    .advantage .num-badge {
+      display: inline-grid; place-items: center;
+      width: 34px; height: 34px; border-radius: 11px; margin-bottom: 14px;
+      background: var(--ink-900); color: #fff;
+      font-family: 'Outfit', sans-serif; font-weight: 800; font-size: .85rem;
+    }
+    .advantage h4 { font-size: 1.15rem; letter-spacing: -.015em; margin-bottom: 8px; }
+    .advantage p { color: var(--ink-500); font-size: .94rem; margin-top: auto; }
+
+    /* ============================================================
+       9. PROGRAM
+       ============================================================ */
+    .program-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .program {
+      position: relative; background: #fff; border: 1px solid var(--line);
+      border-radius: var(--r-lg); padding: 34px 28px 30px; overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+    }
+    .program::before {
+      content: ""; position: absolute; inset: 0 0 auto 0; height: 5px;
+      background: linear-gradient(90deg, var(--brand-500), var(--brand-300) 40%, var(--amber-400) 75%, var(--coral-500));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .5s var(--ease);
+    }
+    .program:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+    .program:hover::before { transform: scaleX(1); }
+    .program .icon {
+      width: 64px; height: 64px; border-radius: 19px; margin-bottom: 20px;
+      display: grid; place-items: center; font-size: 1.7rem;
+      background: linear-gradient(135deg, var(--brand-500), #45b7b7);
+      color: #fff; flex: none;
+    }
+    .program .icon.img-icon {
+      background-size: cover; background-position: center; background-repeat: no-repeat;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .5);
+    }
+    /* fallback bila ikon program belum tersedia */
+    .program .icon.img-icon.no-img {
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--brand-500), #45b7b7);
+    }
+    .program .icon.img-icon.no-img::before { content: "\1F4DA"; }
+    .program h3 { font-size: 1.22rem; letter-spacing: -.02em; margin-bottom: 10px; }
+    .program p { color: var(--ink-500); font-size: .95rem; margin-bottom: 20px; }
+    .program .meta {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .8rem; font-weight: 800; letter-spacing: .04em;
+      color: var(--brand-700); background: var(--brand-50);
+      border: 1px solid var(--brand-100);
+      padding: 6px 14px; border-radius: var(--r-pill);
+    }
+
+    /* ============================================================
+       10. METODE BELAJAR (steps)
+       ============================================================ */
+    .step-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; counter-reset: s; }
+    .step {
+      position: relative; background: #fff; border: 1px solid var(--line);
+      border-radius: var(--r-lg); padding: 30px 24px 28px;
+      box-shadow: var(--shadow-sm);
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+    }
+    .step:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .step::before {
+      counter-increment: s; content: "0" counter(s);
+      position: absolute; right: 18px; top: 14px;
+      font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 2.6rem;
+      color: var(--brand-50); line-height: 1;
+    }
+    .step .ic {
+      width: 46px; height: 46px; border-radius: 14px; margin-bottom: 16px;
+      display: grid; place-items: center;
+      background: var(--ink-900); color: var(--amber-300);
+    }
+    .step h4 { font-size: 1.05rem; margin-bottom: 8px; }
+    .step p { font-size: .92rem; color: var(--ink-500); }
+
+    /* ============================================================
+       11. TOKO
+       ============================================================ */
+    .shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .shop-card {
+      position: relative; background: #fff; border: 1px solid var(--line);
+      border-radius: var(--r-lg); overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column;
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+    }
+    .shop-card:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+    .shop-card .thumb {
+      aspect-ratio: 16 / 10; background: var(--surface-3);
+      background-size: cover; background-position: center; background-repeat: no-repeat;
+      position: relative;
+    }
+    /* fallback bila file gambar produk belum tersedia */
+    .shop-card .thumb.no-img {
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--brand-100), var(--brand-50) 55%, #fff6e5);
+    }
+    .shop-card .thumb.no-img::before {
+      content: "\1F4D6"; font-size: 2.6rem; opacity: .5;
+    }
+    .shop-card .thumb::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10, 22, 32, .16), transparent 55%);
+    }
+    .shop-card .badge-sale {
+      position: absolute; z-index: 2; top: 14px; left: 14px;
+      font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink-900); background: var(--amber-300);
+      padding: 5px 12px; border-radius: var(--r-pill);
+      box-shadow: 0 6px 16px -8px rgba(0, 0, 0, .6);
+    }
+    .shop-card .body { padding: 24px 24px 26px; display: flex; flex-direction: column; flex: 1; }
+    .shop-card h3 { font-size: 1.15rem; letter-spacing: -.02em; margin-bottom: 8px; }
+    .shop-card p { color: var(--ink-500); font-size: .93rem; margin-bottom: 18px; }
+    .shop-card .price {
+      font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.12rem;
+      color: var(--brand-600); margin-bottom: 20px; margin-top: auto;
+    }
+    .shop-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      align-self: stretch; background: var(--ink-900); color: #fff;
+      font-weight: 700; font-size: .93rem; padding: 13px 22px; border-radius: var(--r-pill);
+      transition: background .3s, transform .3s var(--ease), gap .3s;
+    }
+    .shop-btn:hover { background: var(--brand-600); gap: 14px; transform: translateY(-2px); }
+
+    /* ============================================================
+       12. FAQ
+       ============================================================ */
+    .faq-list { max-width: 780px; margin: 0 auto; display: grid; gap: 14px; }
+    .faq-item {
+      background: #fff; border: 1px solid var(--line); border-radius: var(--r-md);
+      overflow: hidden; transition: border-color .3s, box-shadow .3s;
+    }
+    .faq-item[open] { border-color: var(--brand-200); box-shadow: var(--shadow-sm); }
+    .faq-item summary {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 20px 22px; cursor: pointer; list-style: none;
+      font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.02rem; color: var(--ink-900);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: ""; flex: none; width: 30px; height: 30px; border-radius: 50%;
+      background: var(--brand-50); color: var(--brand-600);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f8a74' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E");
+      background-size: 14px; background-repeat: no-repeat; background-position: center;
+      transition: transform .35s var(--ease), background-color .3s;
+    }
+    .faq-item[open] summary::after { transform: rotate(135deg); background-color: var(--brand-100); }
+    .faq-item p { padding: 0 22px 22px; color: var(--ink-500); font-size: .95rem; }
+
+    /* ============================================================
+       13. KONTAK
+       ============================================================ */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; align-items: stretch; }
+    .contact-card {
+      position: relative; overflow: hidden;
+      background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg);
+      padding: 40px 34px; text-align: center; box-shadow: var(--shadow-sm);
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+    }
+    .contact-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    /* Ikon kontak bulat, sama seperti logo */
+    .contact-card .icon {
+      position: relative;
+      width: 82px; height: 82px; margin: 0 auto 20px;
+      border-radius: 50%; overflow: hidden;
+      display: grid; place-items: center;
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+    }
+    .contact-card:hover .icon { transform: scale(1.07) rotate(-4deg); }
+    .contact-card .icon img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      border-radius: 50%;
+    }
+    .contact-card.wa .icon {
+      background: #dcf5e5;
+      box-shadow: 0 0 0 3px rgba(37, 211, 102, .3), 0 10px 22px -10px rgba(37, 211, 102, .7);
+    }
+    /* Video background looping pada kartu kontak (WhatsApp & Instagram) */
+    .contact-card.has-video { background: #063f36; }
+    .contact-card .card-video {
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      pointer-events: none;
+      animation: cardVideoZoom 14s ease-in-out infinite alternate;
+    }
+    .contact-card .card-veil {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: rgba(6, 63, 54, .35);
+    }
+    @keyframes cardVideoZoom {
+      from { transform: scale(1); }
+      to   { transform: scale(1.12); }
+    }
+    .contact-card.has-video .icon,
+    .contact-card.has-video h3,
+    .contact-card.has-video p,
+    .contact-card.has-video a.link { position: relative; z-index: 2; }
+    .contact-card.has-video h3 { color: #fff; }
+    .contact-card.has-video p { color: rgba(233, 246, 243, .8); }
+    .contact-card.ig .icon {
+      background: #ffe3ee;
+      box-shadow: 0 0 0 3px rgba(220, 39, 67, .25), 0 10px 22px -10px rgba(220, 39, 67, .6);
+    }
+    .contact-card h3 { font-size: 1.25rem; margin-bottom: 8px; }
+    .contact-card p { color: var(--ink-500); margin-bottom: 24px; }
+    .contact-card a.link {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: 'Outfit', sans-serif; font-weight: 700;
+      padding: 13px 28px; border-radius: var(--r-pill);
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+    }
+    .contact-card a.link:hover { transform: translateY(-3px); }
+    .contact-card.wa a.link { background: #25d366; color: #fff; box-shadow: 0 12px 26px -12px rgba(37, 211, 102, .9); }
+    .contact-card.ig a.link {
+      background: linear-gradient(45deg, #f09433, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888);
+      color: #fff; box-shadow: 0 12px 26px -12px rgba(220, 39, 67, .9);
+    }
+    .contact-cta {
+      margin-top: 40px; padding: 40px 34px; border-radius: var(--r-xl);
+      text-align: center; color: #fff; position: relative; overflow: hidden;
+      background: radial-gradient(120% 140% at 15% 0%, #0f8a74, #063f36 60%, #052a35);
+    }
+    .contact-cta::before {
+      content: ""; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: radial-gradient(70% 70% at 50% 40%, #000, transparent 75%);
+      -webkit-mask-image: radial-gradient(70% 70% at 50% 40%, #000, transparent 75%);
+    }
+    .contact-cta h3 { color: #fff; font-size: clamp(1.5rem, 2.6vw, 2rem); letter-spacing: -.02em; margin-bottom: 10px; }
+    .contact-cta p { color: rgba(233, 246, 243, .8); max-width: 520px; margin: 0 auto 26px; }
+    .contact-cta > * { position: relative; }
+
+    /* ============================================================
+       14. FOOTER
+       ============================================================ */
+    .footer { background: var(--ink-900); color: rgba(255, 255, 255, .66); padding: 64px 0 30px; }
+    .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 44px; padding-bottom: 40px; }
+    .footer .logo { color: #fff; margin-bottom: 16px; }
+    /* ring logo di footer, diselaraskan dengan latar gelap */
+    .footer .logo .mark {
+      box-shadow:
+        0 0 0 2px rgba(255, 255, 255, .22),
+        0 0 0 3.5px rgba(107, 214, 193, .6),
+        0 6px 16px -6px rgba(0, 0, 0, .6);
+    }
+    .footer .logo:hover .mark {
+      box-shadow:
+        0 0 0 2px rgba(255, 255, 255, .3),
+        0 0 0 4px rgba(251, 191, 36, .8),
+        0 10px 22px -8px rgba(0, 0, 0, .7);
+    }
+    .footer p { font-size: .93rem; max-width: 340px; }
+    .footer h5 {
+      font-family: 'Outfit', sans-serif; font-size: .8rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; color: #fff; margin-bottom: 16px;
+    }
+    .footer ul { list-style: none; display: grid; gap: 10px; }
+    .footer a:hover { color: var(--brand-300); }
+    .footer .socials { display: flex; gap: 10px; margin-top: 20px; }
+    .footer .socials a {
+      width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+      background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .12);
+      color: #fff; transition: background .3s, transform .3s var(--ease);
+    }
+    .footer .socials a:hover { background: var(--brand-500); transform: translateY(-3px) scale(1.08); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, .1); padding-top: 24px;
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;
+      font-size: .85rem;
+    }
+
+    /* Floating WhatsApp */
+    .wa-float {
+      position: fixed; z-index: 160; right: 22px; bottom: 22px;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: #25d366; color: #fff;
+      display: grid; place-items: center;
+      box-shadow: 0 14px 32px -10px rgba(37, 211, 102, .8);
+      transition: transform .3s var(--ease);
+    }
+    .wa-float::after {
+      content: ""; position: absolute; inset: 0; border-radius: 50%;
+      border: 2px solid rgba(37, 211, 102, .55);
+      animation: pulse-ring 2.4s var(--ease-in-out) infinite;
+    }
+    .wa-float:hover { transform: scale(1.09); }
+    @keyframes pulse-ring {
+      0%   { transform: scale(1); opacity: .8; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+    .wa-float .tip {
+      position: absolute; right: calc(100% + 14px); top: 50%; transform: translateY(-50%) translateX(8px);
+      background: var(--ink-900); color: #fff; font-size: .82rem; font-weight: 600;
+      padding: 9px 15px; border-radius: var(--r-pill); white-space: nowrap;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity .3s, transform .3s var(--ease), visibility .3s;
+    }
+    .wa-float:hover .tip { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(0); }
+
+    /* ============================================================
+       15. SCROLL REVEAL
+       ============================================================ */
+    [data-reveal] { opacity: 0; transform: translateY(26px); }
+    [data-reveal].in {
+      opacity: 1; transform: none;
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+      transition-delay: var(--rd, 0ms);
+    }
+
+    /* ============================================================
+       16. RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1080px) {
+      .hero .wrap { grid-template-columns: 1fr; gap: 56px; }
+      .hero-copy { max-width: 100%; }
+      .hero-visual { max-width: 520px; }
+      .advantage-grid { grid-template-columns: repeat(2, 1fr); }
+      .step-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 900px) {
+      :root { --nav-h: 68px; }
+      .nav-links { display: none; }
+      .navbar .nav-cta { display: none; }
+      .nav-toggle { display: grid; }
+      .section { padding: 76px 0; }
+      .about-grid, .vm-grid, .contact-grid { grid-template-columns: 1fr; }
+      .about-visual { order: -1; max-width: 520px; }
+      .program-grid, .shop-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .wrap, .navbar .nav-inner { width: min(1180px, 100% - 32px); }
+      .hero { padding-top: calc(var(--nav-h) + 56px); padding-bottom: 84px; }
+      .hero-actions .btn { width: 100%; }
+      .hero-visual { max-width: 100%; }
+      .fc-1 { left: -8px; top: 8%; }
+      .fc-2 { right: -6px; bottom: 10%; }
+      .float-card { padding: 10px 13px; }
+      .float-card b { font-size: .86rem; }
+      .about-stats { grid-template-columns: 1fr; text-align: center; }
+      .advantage-grid, .program-grid, .shop-grid, .step-grid, .footer-grid { grid-template-columns: 1fr; }
+      .about-visual .sub { width: 24%; right: -4px; bottom: -14px; }
+      .sec-head { margin-bottom: 44px; }
+      .wa-float { width: 52px; height: 52px; right: 16px; bottom: 16px; }
+      .wa-float .tip { display: none; }
+      .footer-bottom { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+      [data-reveal] { opacity: 1; transform: none; }
+      .contact-card .card-video { display: none; }
+    }
+
+    @media print {
+      .navbar, .mobile-nav, .wa-float, .progress, .marquee, .splash { display: none !important; }
+      .contact-card .card-video, .contact-card .card-veil { display: none !important; }
+      .contact-card.has-video { background: #fff; border-color: var(--line); }
+      .contact-card.has-video h3 { color: var(--ink-900); }
+      .hero { background: none; color: var(--ink-900); padding-top: 20px; }
+    }
+  </style>
+</head>
+<body class="splash-lock">
+
+  <!-- ================= SPLASH / PRELOADER ================= -->
+  <div class="splash" id="splash">
+    <div class="splash-inner">
+      <span class="splash-orbit">
+        <span class="splash-ring" aria-hidden="true"></span>
+        <span class="splash-logo">
+          <img src="../images/logo.jpeg" alt="Logo Bimbel Al-Khawarizmi">
+        </span>
+      </span>
+      <span class="splash-text">
+        <span class="name">Bimbel Al-Khawarizmi</span>
+        <span class="tag">Bimbingan Belajar Terpercaya</span>
+      </span>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#beranda">Lompat ke konten utama</a>
+  <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#beranda" class="logo">
+        <span class="mark"><img src="../images/logo.jpeg" alt="Logo Bimbel Al-Khawarizmi"></span>
+        <span>Bimbel Al-Khawarizmi<small>Bimbingan Belajar Terpercaya</small></span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigasi utama">
+        <a href="#beranda">Home</a>
+        <a href="#tentang">Tentang</a>
+        <a href="#program">Program</a>
+        <a href="#metode">Metode</a>
+        <a href="#toko">Toko</a>
+        <a href="#faq">FAQ</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+
+      <a class="nav-cta" href="https://wa.me/6285283524805" target="_blank" rel="noopener">
+        Daftar Sekarang
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Buka menu navigasi">
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="Navigasi mobile">
+    <a href="#tentang">Tentang Kami</a>
+    <a href="#program">Program</a>
+    <a href="#metode">Metode Belajar</a>
+    <a href="#toko">Toko</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontak">Kontak</a>
+    <a class="nav-cta" href="https://wa.me/6285283524805" target="_blank" rel="noopener">Daftar Sekarang</a>
+  </nav>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="beranda">
+      <div class="wrap">
+        <div class="hero-copy" data-reveal>
+          <span class="hero-badge">
+            <i class="sparkle" style="--sp-left:-30px; --sp-top:32%; --sp-size:10px; --sp-delay:0s;"></i>
+            <i class="sparkle" style="--sp-left:-15px; --sp-top:74%; --sp-size:6px; --sp-delay:0.7s;"></i>
+            <i class="sparkle" style="--sp-left:-5px;  --sp-top:16%; --sp-size:5px; --sp-delay:1.4s;"></i>
+            <i class="sparkle" style="--sp-left:-36px; --sp-top:84%; --sp-size:7px; --sp-delay:1.9s;"></i>
+            <i class="sparkle" style="--sp-right:30px; --sp-top:28%; --sp-size:10px; --sp-delay:0.35s;"></i>
+            <i class="sparkle" style="--sp-right:15px; --sp-top:72%; --sp-size:6px; --sp-delay:1.05s;"></i>
+            <i class="sparkle" style="--sp-right:5px;  --sp-top:86%; --sp-size:5px; --sp-delay:1.75s;"></i>
+            <i class="sparkle" style="--sp-right:36px; --sp-top:16%; --sp-size:7px; --sp-delay:2.2s;"></i>
+            <span class="badge-label">&#10024; Bimbingan Belajar Terpercaya</span>
+          </span>
+
+          <h1>Raih Prestasi Terbaik dengan <span class="grad">Bimbingan Belajar</span> yang Menyenangkan</h1>
+
+          <p class="lead">
+            Bimbel Al-Khawarizmi membantu putra-putri Anda memahami pelajaran dengan
+            metode yang mudah, menyenangkan, dan terukur &mdash; dari tingkat SD hingga SMA.
+          </p>
+
+          <div class="hero-actions">
+            <!-- TOMBOL CTA UTAMA -> WhatsApp -->
+            <a class="btn btn-primary" href="https://wa.me/6285283524805" target="_blank" rel="noopener">
+              Daftarkan Anak Anda Sekarang
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="#tentang">Pelajari Lebih Lanjut</a>
+          </div>
+
+          <div class="trust-row">
+            <span class="chip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>
+              Kelas kecil &amp; terpantau
+            </span>
+            <span class="chip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>
+              Uji kemajuan rutin
+            </span>
+            <span class="chip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>
+              Laporan untuk orang tua
+            </span>
+          </div>
+        </div>
+
+        <div class="hero-visual" data-reveal style="--rd:140ms">
+          <div class="hero-photo">
+            <img src="../images/foto.jpeg" alt="Suasana belajar di Bimbel Al-Khawarizmi">
+            <span class="sheen" aria-hidden="true"></span>
+          </div>
+
+          <div class="float-card fc-1">
+            <span class="ic">
+              <img src="../images/bukhu.png" alt="" aria-hidden="true">
+            </span>
+            <span>
+              <b>Modul Terstruktur</b>
+              <span>Selaras kurikulum sekolah</span>
+            </span>
+          </div>
+
+          <div class="float-card fc-2">
+            <span class="ic" aria-hidden="true">&#127891;</span>
+            <span>
+              <b>Belajar Menyenangkan</b>
+              <span>Permainan edukatif interaktif</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MARQUEE MATA PELAJARAN ================= -->
+    <div class="marquee" aria-hidden="true">
+      <div class="track">
+        <div class="group">
+          <span>Matematika</span><span>Bahasa Indonesia</span><span>Bahasa Inggris</span>
+          <span>IPA Terpadu</span><span>Persiapan Ujian</span><span>Bimbel SD Terpadu</span>
+          <span>Metode Belajar Cerdas</span>
+        </div>
+        <div class="group">
+          <span>Matematika</span><span>Bahasa Indonesia</span><span>Bahasa Inggris</span>
+          <span>IPA Terpadu</span><span>Persiapan Ujian</span><span>Bimbel SD Terpadu</span>
+          <span>Metode Belajar Cerdas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TENTANG KAMI ================= -->
+    <section class="section" id="tentang">
+      <div class="wrap about-grid">
+        <div class="about-visual" data-reveal>
+          <span class="accent" aria-hidden="true"></span>
+          <div class="main">
+            <img src="../images/ujian.png" alt="Ilustrasi ujian di Bimbel Al-Khawarizmi">
+          </div>
+          <div class="sub">
+            <img src="../images/logo-bulat.jpg" alt="Logo Bimbel Al-Khawarizmi">
+          </div>
+        </div>
+
+        <div class="about-text" data-reveal style="--rd:120ms">
+          <span class="kicker">Tentang Kami</span>
+          <h3>Belajar Cerdas, Bukan Sekadar Keras</h3>
+          <p>
+            Bimbel Al-Khawarizmi adalah lembaga bimbingan belajar yang berfokus pada pemahaman
+            konsep dan pembentukan kebiasaan belajar yang baik. Kami mendampingi siswa dari
+            jenjang SD, SMP, hingga SMA.
+          </p>
+          <p>
+            Dengan pengajar berpengalaman dan kelas yang tidak terlalu besar, setiap siswa
+            mendapat perhatian penuh sehingga potensinya dapat berkembang secara optimal.
+          </p>
+
+          <ul class="about-points">
+            <li>
+              <span class="tick" aria-hidden="true">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </span>
+              Terinspirasi dari nama ilmuwan Muslim Al-Khawarizmi, sang father matematika dunia.
+            </li>
+            <li>
+              <span class="tick" aria-hidden="true">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </span>
+              Setiap siswa mendapat perhatian penuh karena jumlah kelas dibatasi.
+            </li>
+            <li>
+              <span class="tick" aria-hidden="true">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </span>
+              Progress dilaporkan berkala kepada orang tua.
+            </li>
+          </ul>
+
+          <div class="about-stats">
+            <div>
+              <div class="num" data-count="3">3</div>
+              <div class="lbl">Jenjang SD &ndash; SMA</div>
+            </div>
+            <div>
+              <div class="num" data-count="5">5</div>
+              <div class="lbl">Program unggulan</div>
+            </div>
+            <div>
+              <div class="num" data-count="6">6</div>
+              <div class="lbl">Keunggulan belajar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VISI, MISI & KEUNGGULAN ================= -->
+    <section class="section section-soft">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <span class="kicker">Visi &amp; Misi</span>
+          <h2>Arah dan <em>Langkah</em> Kami</h2>
+          <p>Kami percaya setiap anak berhak belajar dengan cara yang tepat, dibimbing dengan pendampingan yang hangat.</p>
+        </div>
+
+        <div class="vm-grid">
+          <article class="vm-card" data-reveal>
+            <img class="frame-photo" src="../images/tentang.jpeg" alt="Gambaran Bimbel Al-Khawarizmi">
+            <div class="body">
+              <span class="tag" aria-hidden="true">&#9733; Visi</span>
+              <h3>Visi Kami</h3>
+              <p>Menjadi lembaga bimbingan belajar terdepan yang melahirkan generasi cerdas, berkarakter, dan cinta belajar.</p>
+            </div>
+          </article>
+
+          <article class="vm-card" data-reveal style="--rd:120ms">
+            <img class="frame-photo" src="../images/misi.jpeg" alt="Gambaran misi Bimbel Al-Khawarizmi">
+            <div class="body">
+              <span class="tag" aria-hidden="true">&#9733; Misi</span>
+              <h3>Yang Kami Kerjakan</h3>
+              <ul>
+                <li>Menyediakan metode pembelajaran yang mudah dipahami dan menyenangkan.</li>
+                <li>Membimbing setiap siswa sesuai dengan gaya belajar masing-masing.</li>
+                <li>Membangun kerja sama yang baik antara bimbel, siswa, dan orang tua.</li>
+                <li>Menumbuhkan rasa percaya diri dan kemandirian dalam belajar.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <div class="sec-head left" style="margin-top:88px;" data-reveal>
+          <span class="kicker">Keunggulan Kami</span>
+          <h2>Kenapa Memilih <em>Kami?</em></h2>
+        </div>
+
+        <div class="advantage-grid">
+          <article class="advantage" data-reveal>
+            <img class="guru-photo fit" src="../images/foto-guru.png" alt="Foto pengajar Bimbel Al-Khawarizmi">
+            <span class="num-badge" aria-hidden="true">01</span>
+            <h4>Pengajar Berpengalaman</h4>
+            <p>Dibimbing oleh tenaga pendidik yang sabar, kompeten, dan bersertifikasi.</p>
+          </article>
+
+          <article class="advantage" data-reveal style="--rd:80ms">
+            <img class="guru-photo fit bare cutout" src="../images/bukhu.png" alt="Ilustrasi buku untuk materi terstruktur Bimbel Al-Khawarizmi">
+            <span class="num-badge" aria-hidden="true">02</span>
+            <h4>Materi Terstruktur</h4>
+            <p>Modul belajar yang sistematis disesuaikan dengan kurikulum sekolah terkini.</p>
+          </article>
+
+          <article class="advantage" data-reveal style="--rd:160ms">
+            <img class="guru-photo fit bare" src="../images/kelas-kecil.jpg" alt="Kelas kecil Bimbel Al-Khawarizmi">
+            <span class="num-badge" aria-hidden="true">03</span>
+            <h4>Kelas Kecil</h4>
+            <p>Jumlah siswa dibatasi agar fokus belajar lebih maksimal.</p>
+          </article>
+
+          <article class="advantage" data-reveal>
+            <img class="guru-photo fit bare" src="../images/uji-kemajuan.jpg" alt="Uji kemajuan rutin Bimbel Al-Khawarizmi">
+            <span class="num-badge" aria-hidden="true">04</span>
+            <h4>Uji Kemajuan Rutin</h4>
+            <p>Evaluasi berkala dan laporan perkembangan belajar untuk orang tua.</p>
+          </article>
+
+          <article class="advantage" data-reveal style="--rd:80ms">
+            <img class="guru-photo fit bare" src="../images/seru.jpg" alt="Metode menyenangkan Bimbel Al-Khawarizmi">
+            <span class="num-badge" aria-hidden="true">05</span>
+            <h4>Metode Menyenangkan</h4>
+            <p>Pembelajaran interaktif dengan permainan edukatif agar tidak bosan.</p>
+          </article>
+
+          <article class="advantage" data-reveal style="--rd:160ms">
+            <img class="guru-photo" src="../images/orangtua.jpg" alt="Konsultasi orang tua Bimbel Al-Khawarizmi">
+            <span class="num-badge" aria-hidden="true">06</span>
+            <h4>Konsultasi Orang Tua</h4>
+            <p>Saluran komunikasi terbuka untuk membahas perkembangan anak.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PROGRAM BELAJAR ================= -->
+    <section class="section" id="program">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <span class="kicker">Program</span>
+          <h2>Program Belajar <em>Kami</em></h2>
+          <p>Beragam program unggulan untuk mendukung prestasi akademik putra-putri Anda.</p>
+        </div>
+
+        <div class="program-grid">
+          <article class="program" data-reveal>
+            <div class="icon img-icon" style="background-image:url('../images/mathh.png')" role="img" aria-label="Ikon Matematika"></div>
+            <h3>Matematika</h3>
+            <p>Fondasi logika dan numerik yang kuat, dari aritmetika dasar hingga kalkulus.</p>
+            <span class="meta">SD &ndash; SMA</span>
+          </article>
+
+          <article class="program" data-reveal style="--rd:80ms">
+            <div class="icon img-icon" style="background-image:url('../images/bing.png')" role="img" aria-label="Ikon Bahasa Inggris"></div>
+            <h3>Bahasa Inggris</h3>
+            <p>Latihan grammar, percakapan, dan kosakata untuk percaya diri berbahasa asing.</p>
+            <span class="meta">SD &ndash; SMP</span>
+          </article>
+
+          <article class="program" data-reveal style="--rd:160ms">
+            <div class="icon img-icon" style="background-image:url('../images/bind.jpg')" role="img" aria-label="Ikon Bahasa Indonesia"></div>
+            <h3>Bahasa Indonesia</h3>
+            <p>Kemampuan membaca, menulis, dan menganalisis teks secara baik dan benar.</p>
+            <span class="meta">SD &ndash; SMP</span>
+          </article>
+
+          <article class="program" data-reveal>
+            <div class="icon img-icon" style="background-image:url('../images/sd.jpg')" role="img" aria-label="Ikon Bimbel SD Terpadu"></div>
+            <h3>Bimbel SD Terpadu</h3>
+            <p>Program menyeluruh untuk semua mata pelajaran dengan pendekatan menyenangkan.</p>
+            <span class="meta">Kelas 1 &ndash; 6</span>
+          </article>
+
+          <article class="program" data-reveal style="--rd:80ms">
+            <div class="icon img-icon" style="background-image:url('../images/persiapan.png')" role="img" aria-label="Ikon Persiapan Ujian"></div>
+            <h3>Persiapan Ujian</h3>
+            <p>Intensif menghadapi ujian sekolah dan ujian masuk jenjang selanjutnya.</p>
+            <span class="meta">Semua Jenjang</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= METODE BELAJAR ================= -->
+    <section class="section section-tint" id="metode">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <span class="kicker">Metode</span>
+          <h2>Bagaimana Kami <em>Mengajar?</em></h2>
+          <p>Empat langkah sederhana yang membuat anak paham konsep, bukan sekadar hafalan.</p>
+        </div>
+
+        <div class="step-grid">
+          <article class="step" data-reveal>
+            <span class="ic" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </span>
+            <h4>Diagnosa Kemampuan</h4>
+            <p>Kami nilai pemahaman awal siswa agar materi bisa disesuaikan dengan tingkatnya.</p>
+          </article>
+
+          <article class="step" data-reveal style="--rd:80ms">
+            <span class="ic" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            </span>
+            <h4>Mengajar Konsep</h4>
+            <p>Penjelasan ringkas, bertahap, dan banyak contoh agar konsep terasa masuk akal.</p>
+          </article>
+
+          <article class="step" data-reveal style="--rd:160ms">
+            <span class="ic" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </span>
+            <h4>Latihan Terukur</h4>
+            <p>Soal bertingkat dari mudah ke sulit, disusun sesuai jenjang dan gaya belajar anak.</p>
+          </article>
+
+          <article class="step" data-reveal style="--rd:240ms">
+            <span class="ic" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            </span>
+            <h4>Evaluasi &amp; Laporan</h4>
+            <p>Uji kemajuan rutin dan laporan perkembangan yang dikirimkan ke orang tua.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TOKO ================= -->
+    <section class="section" id="toko">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <span class="kicker">Toko</span>
+          <h2>Toko <em>Al-Khawarizmi</em></h2>
+          <p>Pilih produk belajar yang dibutuhkan, bisa dibeli langsung via WhatsApp.</p>
+        </div>
+
+        <div class="shop-grid">
+          <article class="shop-card" data-reveal>
+            <div class="thumb" style="background-image: url(../images/worksheet-online.jpg)" role="img" aria-label="Worksheet Online"></div>
+            <span class="badge-sale">Digital</span>
+            <div class="body">
+              <h3>Worksheet Online</h3>
+              <p>Lembar kerja interaktif siap pakai untuk latihan rutin di rumah atau kelas.</p>
+              <div class="price">Rp xx.xxx &ndash; Rp xx.xxx</div>
+              <a class="shop-btn" href="https://wa.me/6285283524805?text=Halo%20Bimbel%20Al-Khawarizmi%2C%20saya%20ingin%20beli%20Worksheet%20Online." target="_blank" rel="noopener">
+                Beli via WhatsApp
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <article class="shop-card" data-reveal style="--rd:80ms">
+            <div class="thumb" style="background-image: url(../images/modul-bimbel.jpg)" role="img" aria-label="Modul Bimbel"></div>
+            <span class="badge-sale">Favorit</span>
+            <div class="body">
+              <h3>Modul Bimbel</h3>
+              <p>Modul terstruktur per materi lengkap dengan latihan dan pembahasan.</p>
+              <div class="price">Rp xx.xxx &ndash; Rp xx.xxx</div>
+              <a class="shop-btn" href="https://wa.me/6285283524805?text=Halo%20Bimbel%20Al-Khawarizmi%2C%20saya%20ingin%20beli%20Modul%20Bimbel." target="_blank" rel="noopener">
+                Beli via WhatsApp
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <article class="shop-card" data-reveal style="--rd:160ms">
+            <div class="thumb" style="background-image: url(../images/latihan-soal.jpg)" role="img" aria-label="Paket Latihan Soal"></div>
+            <span class="badge-sale">Ujian</span>
+            <div class="body">
+              <h3>Paket Latihan Soal</h3>
+              <p>Paket soal tematik + kunci jawaban, cocok untuk persiapan ujian.</p>
+              <div class="price">Rp xx.xxx &ndash; Rp xx.xxx</div>
+              <a class="shop-btn" href="https://wa.me/6285283524805?text=Halo%20Bimbel%20Al-Khawarizmi%2C%20saya%20ingin%20beli%20Paket%20Latihan%20Soal." target="_blank" rel="noopener">
+                Beli via WhatsApp
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section class="section section-soft" id="faq">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <span class="kicker">FAQ</span>
+          <h2>Pertanyaan <em>Umum</em></h2>
+          <p>Beberapa hal yang sering ditanyakan oleh para orang tua.</p>
+        </div>
+
+        <div class="faq-list" data-reveal>
+          <details class="faq-item">
+            <summary>Jenjang apa saja yang dilayani?</summary>
+            <p>Kami melayani jenjang SD, SMP, hingga SMA, baik untuk kelas harian maupun mingguan.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Bagaimana cara mendaftarkan anak?</summary>
+            <p>Anda dapat menghubungi kami langsung melalui WhatsApp pada tombol Daftar Sekarang. Tim kami akan membantu menjadwalkan sesi pertama dan menentukan program yang sesuai.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Apakah ada uji kemajuan secara rutin?</summary>
+            <p>Ya. Kami melakukan evaluasi berkala untuk mengukur perkembangan siswa dan menyampaikan laporannya kepada orang tua.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Apakah orang tua bisa konsultasi secara berkala?</summary>
+            <p>Bisa. Kami menyediakan saluran komunikasi terbuka untuk membahas perkembangan anak, baik secara langsung maupun melalui WhatsApp.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= KONTAK ================= -->
+    <section class="section" id="kontak">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <span class="kicker">Kontak</span>
+          <h2>Hubungi <em>Kami</em></h2>
+          <p>Jangan ragu untuk bertanya. Tim kami siap membantu Anda berkonsultasi tentang program belajar.</p>
+        </div>
+
+        <div class="contact-grid">
+          <article class="contact-card wa has-video" data-reveal>
+            <video class="card-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1">
+              <source src="../images/animasi2.mp4" type="video/mp4">
+            </video>
+            <span class="card-veil" aria-hidden="true"></span>
+            <div class="icon"><img src="../images/wa.png" alt="WhatsApp Bimbel Al-Khawarizmi"></div>
+            <h3>WhatsApp / Telepon</h3>
+            <p class="sr-only">085283524805</p>
+            <a class="link" href="https://wa.me/6285283524805" target="_blank" rel="noopener">
+              Chat via WhatsApp
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+
+          <article class="contact-card ig has-video" data-reveal style="--rd:100ms">
+            <video class="card-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1">
+              <source src="../images/animasi2.mp4" type="video/mp4">
+            </video>
+            <span class="card-veil" aria-hidden="true"></span>
+            <div class="icon"><img src="../images/ig.jpg" alt="Instagram Bimbel Al-Khawarizmi"></div>
+            <h3>Instagram</h3>
+            <p class="sr-only">@bimbel_alkhawarizmii</p>
+            <a class="link" href="https://instagram.com/bimbel_alkhawarizmii" target="_blank" rel="noopener">
+              Follow Instagram
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+        </div>
+
+        <div class="contact-cta" data-reveal>
+          <h3>Siap membuat anak Anda mulai belajar lebih baik?</h3>
+          <p>Hubungi kami hari ini, jadwalkan sesi pertama, dan temukan program yang paling sesuai untuk kebutuhan anak Anda.</p>
+          <a class="btn btn-primary" href="https://wa.me/6285283524805" target="_blank" rel="noopener">
+            Daftarkan Anak Anda Sekarang
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <a href="#beranda" class="logo">
+            <span class="mark"><img src="../images/logo.jpeg" alt="Logo Bimbel Al-Khawarizmi"></span>
+            <span>Bimbel Al-Khawarizmi<small>Bimbingan Belajar Terpercaya</small></span>
+          </a>
+          <p>Lembaga bimbingan belajar untuk jenjang SD, SMP, dan SMA dengan metode belajar yang mudah, menyenangkan, dan terukur.</p>
+          <div class="socials">
+            <a href="https://wa.me/6285283524805" target="_blank" rel="noopener" aria-label="WhatsApp Bimbel Al-Khawarizmi">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.2-1.36a9.9 9.9 0 0 0 4.84 1.24h.01c5.5 0 9.96-4.46 9.96-9.96A9.9 9.9 0 0 0 12.04 2Zm5.8 14.1c-.24.68-1.4 1.3-1.94 1.34-.5.05-.98.24-3.3-.69-2.78-1.1-4.55-3.94-4.69-4.13-.14-.19-1.12-1.49-1.12-2.84s.71-2.01.96-2.29c.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.48.24.56.8 1.94.87 2.08.07.14.12.3.02.49-.1.19-.15.3-.29.47-.14.16-.3.36-.43.49-.14.14-.29.29-.12.57.16.27.73 1.2 1.56 1.95 1.07.95 1.97 1.25 2.25 1.39.27.14.43.12.59-.07.16-.19.68-.79.86-1.06.18-.27.36-.22.61-.13.25.09 1.6.75 1.87.89.27.14.45.21.52.32.07.11.07.65-.17 1.33Z"/></svg>
+            </a>
+            <a href="https://instagram.com/bimbel_alkhawarizmii" target="_blank" rel="noopener" aria-label="Instagram Bimbel Al-Khawarizmi">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.26.07 1.64.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.26.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.26-.07-1.64-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.26-.06 1.64-.07 4.85-.07Zm0 1.8c-3.14 0-3.51.01-4.75.07-1.15.05-1.77.24-2.18.4-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.41-.35 1.03-.4 2.18-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.05 1.15.24 1.77.4 2.18.21.55.47.94.88 1.35.41.41.8.67 1.35.88.41.16 1.03.35 2.18.4 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c1.15-.05 1.77-.24 2.18-.4.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.41.35-1.03.4-2.18.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.05-1.15-.24-1.77-.4-2.18a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.18-.4-1.24-.06-1.61-.07-4.75-.07Zm0 3.06a4.94 4.94 0 1 1 0 9.88 4.94 4.94 0 0 1 0-9.88Zm0 1.8a3.14 3.14 0 1 0 0 6.28 3.14 3.14 0 0 0 0-6.28Zm5.15-3.2a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3Z"/></svg>
+            </a>
+            <a href="admin.html" target="_blank" rel="noopener" aria-label="Admin Bimbel Al-Khawarizmi">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h5>Alamat</h5>
+          <ul>
+            <li>Perumahan Grand Mutiara</li>
+            <li>Blok B2 No. 8</li>
+          </ul>
+        </div>
+
+        <div>
+          <h5>Kontak</h5>
+          <ul>
+            <li><a href="https://wa.me/6285283524805" target="_blank" rel="noopener">WhatsApp 0852-8352-4805</a></li>
+            <li><a href="https://instagram.com/bimbel_alkhawarizmii" target="_blank" rel="noopener">@bimbel_alkhawarizmii</a></li>
+            <li>Bimbingan belajar SD, SMP, SMA</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; <span id="year">2026</span> Bimbel Al-Khawarizmi. Seluruh hak dilindungi.</span>
+        <span>Dirancang dengan semangat belajar yang terus bertumbuh.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a class="wa-float" href="https://wa.me/6285283524805" target="_blank" rel="noopener" aria-label="Hubungi kami via WhatsApp">
+    <span class="tip">Chat via WhatsApp</span>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.2-1.36a9.9 9.9 0 0 0 4.84 1.24h.01c5.5 0 9.96-4.46 9.96-9.96A9.9 9.9 0 0 0 12.04 2Zm5.8 14.1c-.24.68-1.4 1.3-1.94 1.34-.5.05-.98.24-3.3-.69-2.78-1.1-4.55-3.94-4.69-4.13-.14-.19-1.12-1.49-1.12-2.84s.71-2.01.96-2.29c.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.48.24.56.8 1.94.87 2.08.07.14.12.3.02.49-.1.19-.15.3-.29.47-.14.16-.3.36-.43.49-.14.14-.29.29-.12.57.16.27.73 1.2 1.56 1.95 1.07.95 1.97 1.25 2.25 1.39.27.14.43.12.59-.07.16-.19.68-.79.86-1.06.18-.27.36-.22.61-.13.25.09 1.6.75 1.87.89.27.14.45.21.52.32.07.11.07.65-.17 1.33Z"/></svg>
+  </a>
+
+  <script>
+    (function () {
+      'use strict';
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* WhatsApp registration message generator */
+      var WA_NUMBER = '6285283524805';
+      function buildWaUrl(extraText) {
+        var today = new Date();
+        var dateStr = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        var template =
+          'Halo Bimbel Al-Khawarizmi,\n' +
+          'Saya ingin mendaftarkan anak saya. Berikut datanya:\n\n' +
+          '📅 Tanggal Daftar: ' + dateStr + '\n' +
+          '👤 Nama Lengkap: [Nama Anak]\n' +
+          '🎂 Tempat, Tgl Lahir: [Tempat, Tanggal Lahir]\n' +
+          '📚 Kelas/Sekolah Saat Ini: [Kelas / Nama Sekolah]\n' +
+          '📖 Program Pilihan: [Reguler / Intensif / Persiapan Ujian / Private / Bimbel SD Terpadu]\n' +
+          '🏠 Alamat: [Alamat Lengkap]\n' +
+          '📞 No. HP/WA Orang Tua: [Nomor HP]\n\n' +
+          'Mohon info jadwal, biaya, dan prosedur selanjutnya. Terima kasih.';
+        var fullText = extraText ? extraText + '\n\n' + template : template;
+        return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(fullText);
+      }
+
+      /* Apply to all WhatsApp registration links */
+      function initWaLinks() {
+        document.querySelectorAll('a[href*="wa.me/6285283524805"]').forEach(function(link) {
+          var originalHref = link.getAttribute('href');
+          if (originalHref && originalHref.includes('?text=')) return;
+          link.setAttribute('href', buildWaUrl());
+        });
+      }
+
+      /* ---- Splash: logo turun 5 detik, lalu berangsur menghilang ---- */
+      (function splash() {
+        var el = document.getElementById('splash');
+        if (!el) return;
+        var body = document.body;
+        var done = false;
+        var hide = function () {
+          if (done) return;
+          done = true;
+          el.classList.add('done');
+          body.classList.remove('splash-lock');
+          window.setTimeout(function () { el.classList.add('gone'); }, 950);
+        };
+        /* pengguna dengan preferensi gerak minimum: lewati animasi */
+        if (reduced) { hide(); return; }
+        /* 5 detik logo mencapai tengah, lalu jeda sebentar sebelum memudar */
+        window.setTimeout(hide, 5750);
+        /* jaring lambat atau gambar gagal: jangan tahan halaman terlalu lama */
+        window.setTimeout(hide, 8200);
+        /* klik atau tekan tombol apa pun untuk melewati splash */
+        el.addEventListener('click', hide);
+        document.addEventListener('keydown', hide);
+      })();
+
+      /* Navbar: state scroll + progress bar */
+      var navbar = document.getElementById('navbar');
+      var bar = document.getElementById('progressBar');
+      var onScroll = function () {
+        var y = window.scrollY || 0;
+        navbar.classList.toggle('scrolled', y > 24);
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = (h > 0 ? Math.min(100, (y / h) * 100) : 0) + '%';
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      /* Mobile menu */
+      var toggle = document.getElementById('navToggle');
+      var mobile = document.getElementById('mobileNav');
+      var setMenu = function (open) {
+        mobile.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Tutup menu navigasi' : 'Buka menu navigasi');
+      };
+      toggle.addEventListener('click', function () {
+        setMenu(toggle.getAttribute('aria-expanded') !== 'true');
+      });
+      mobile.addEventListener('click', function (e) {
+        if (e.target.closest('a')) setMenu(false);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') setMenu(false);
+      });
+
+      /* Scroll reveal */
+      var revealables = document.querySelectorAll('[data-reveal]');
+      if (reduced || !('IntersectionObserver' in window)) {
+        revealables.forEach(function (el) { el.classList.add('in'); });
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+        revealables.forEach(function (el) { io.observe(el); });
+      }
+
+      /* Angka statistik beranimasi */
+      var counters = document.querySelectorAll('[data-count]');
+      var runCount = function (el) {
+        var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+        if (reduced) { el.textContent = target; return; }
+        var start = null, dur = 1100;
+        var tick = function (t) {
+          if (start === null) start = t;
+          var p = Math.min(1, (t - start) / dur);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased);
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      if ('IntersectionObserver' in window) {
+        var cio = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            runCount(entry.target);
+            cio.unobserve(entry.target);
+          });
+        }, { threshold: 0.6 });
+        counters.forEach(function (el) { cio.observe(el); });
+      } else {
+        counters.forEach(runCount);
+      }
+
+      /* Tandai link nav yang sedang aktif */
+      var links = document.querySelectorAll('.nav-links a');
+      var sections = Array.prototype.map.call(links, function (a) {
+        return document.querySelector(a.getAttribute('href'));
+      }).filter(Boolean);
+      if ('IntersectionObserver' in window && sections.length) {
+        var nio = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            links.forEach(function (a) {
+              a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+            });
+          });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        sections.forEach(function (s) { nio.observe(s); });
+      }
+
+      /* Tahun berjalan */
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      /* Init WhatsApp links with pre-filled registration format */
+      initWaLinks();
+
+      /* Fallback gambar: sembunyikan elemen broken, beri placeholder */
+      var markBroken = function (el) {
+        if (el.tagName === 'IMG') {
+          el.style.background = 'linear-gradient(135deg,#d0f4ea,#eafaf6)';
+          el.style.borderRadius = '50%';   /* jaga tetap bulat untuk logo */
+          el.removeAttribute('src');
+        } else {
+          el.classList.add('no-img');
+          el.style.backgroundImage = 'none';
+        }
+      };
+      document.querySelectorAll('img').forEach(function (img) {
+        if (img.complete && img.naturalWidth === 0) markBroken(img);
+        img.addEventListener('error', function () { markBroken(img); });
+      });
+      document.querySelectorAll('.thumb[style*="background-image"], .img-icon[style*="background-image"]').forEach(function (el) {
+        var url = (el.style.backgroundImage.match(/url\(['"]?(.+?)['"]?\)/) || [])[1];
+        if (!url) return;
+        var probe = new Image();
+        probe.onerror = function () { markBroken(el); };
+        probe.src = url;
+      });
+    })();
+  </script>
+
+</body>
+</html>
